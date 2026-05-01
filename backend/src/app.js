@@ -6,6 +6,7 @@ const rateLimit = require('express-rate-limit');
 const config = require('./config/env');
 const logger = require('./utils/logger');
 const { errorHandler } = require('./middleware/errorHandler');
+const { runMigrations } = require('./config/migrate');
 
 const authRoutes = require('./routes/auth');
 const monitorsRoutes = require('./routes/monitors');
@@ -79,8 +80,16 @@ app.use((req, res) => {
 app.use(errorHandler);
 
 const PORT = config.port;
-app.listen(PORT, () => {
-  logger.info(`API server running on port ${PORT} [${config.nodeEnv}]`);
-});
+
+runMigrations()
+  .then(() => {
+    app.listen(PORT, () => {
+      logger.info(`API server running on port ${PORT} [${config.nodeEnv}]`);
+    });
+  })
+  .catch((err) => {
+    logger.error(`Startup failed: ${err.message}`);
+    process.exit(1);
+  });
 
 module.exports = app;
