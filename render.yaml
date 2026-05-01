@@ -1,0 +1,64 @@
+databases:
+  - name: api-monitoring-db
+    databaseName: api_monitoring
+    user: monitoring
+    plan: free
+
+services:
+  # ── Backend API ──
+  - type: web
+    name: pulseapi-backend
+    runtime: node
+    rootDir: backend
+    buildCommand: npm install
+    startCommand: node src/app.js
+    plan: free
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: DATABASE_URL
+        fromDatabase:
+          name: api-monitoring-db
+          property: connectionString
+      - key: JWT_SECRET
+        generateValue: true
+      - key: FRONTEND_URL
+        sync: false   # Set this in Render dashboard to your Vercel admin URL
+      - key: STATUS_URL
+        sync: false   # Set this in Render dashboard to your Vercel status URL
+      - key: SMTP_HOST
+        sync: false
+      - key: SMTP_PORT
+        value: "587"
+      - key: SMTP_USER
+        sync: false
+      - key: SMTP_PASSWORD
+        sync: false
+      - key: SMTP_FROM
+        sync: false
+
+  # ── Background Worker ──
+  - type: worker
+    name: pulseapi-worker
+    runtime: node
+    rootDir: worker
+    buildCommand: npm install
+    startCommand: node src/worker.js
+    plan: free
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: DATABASE_URL
+        fromDatabase:
+          name: api-monitoring-db
+          property: connectionString
+      - key: SMTP_HOST
+        sync: false
+      - key: SMTP_PORT
+        value: "587"
+      - key: SMTP_USER
+        sync: false
+      - key: SMTP_PASSWORD
+        sync: false
+      - key: SMTP_FROM
+        sync: false
