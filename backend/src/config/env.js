@@ -35,4 +35,5 @@ module.exports = {
         process.env.STATUS_URL   || 'http://localhost:3000',
       ]),
   },
+  maxConcurrentChecks: parseInt(process.env.MAX_CONCURRENT_CHECKS || '10', 10),
 };

@@ -7,6 +7,8 @@ const config = require('./config/env');
 const logger = require('./utils/logger');
 const { errorHandler } = require('./middleware/errorHandler');
 const { runMigrations } = require('./config/migrate');
+const cron = require('node-cron');
+const MonitorJob = require('./worker/monitorJob');
 
 const authRoutes = require('./routes/auth');
 const monitorsRoutes = require('./routes/monitors');
@@ -83,6 +85,12 @@ const PORT = config.port;
 
 runMigrations()
   .then(() => {
+    // Start embedded monitor worker
+    const job = new MonitorJob();
+    job.runChecks(); // run immediately on startup
+    cron.schedule('* * * * *', () => job.runChecks());
+    logger.info('Monitor worker started (embedded)');
+
     app.listen(PORT, () => {
       logger.info(`API server running on port ${PORT} [${config.nodeEnv}]`);
     });
