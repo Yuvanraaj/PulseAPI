@@ -17,7 +17,7 @@ const monitorValidation = [
   body('timeout_seconds').optional().isInt({ min: 1, max: 60 }),
   body('expected_status_code').optional().isInt({ min: 100, max: 599 }),
   body('headers').optional().isObject(),
-  body('body').optional().isString(),
+  body('body').optional({ nullable: true }).isString(),
   body('validate_ssl').optional().isBoolean(),
   body('response_body_match').optional({ nullable: true }).isString(),
   body('description').optional({ nullable: true }).isString(),
