@@ -1,6 +1,6 @@
 const axios = require('axios');
 const https = require('https');
-const logger = require('../../utils/logger');
+const logger = require('../utils/logger');
 
 class CheckExecutor {
   /**

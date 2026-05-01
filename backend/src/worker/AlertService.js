@@ -1,8 +1,8 @@
 const axios = require('axios');
 const nodemailer = require('nodemailer');
-const db = require('../../config/database');
-const config = require('../../config/env');
-const logger = require('../../utils/logger');
+const db = require('../config/database');
+const config = require('../config/env');
+const logger = require('../utils/logger');
 
 class AlertService {
   constructor() {

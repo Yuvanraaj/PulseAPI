@@ -1,8 +1,8 @@
-const db = require('../../config/database');
+const db = require('../config/database');
 const CheckExecutor = require('./CheckExecutor');
 const AlertService = require('./AlertService');
-const logger = require('../../utils/logger');
-const config = require('../../config/env');
+const logger = require('../utils/logger');
+const config = require('../config/env');
 
 class MonitorJob {
   constructor() {
