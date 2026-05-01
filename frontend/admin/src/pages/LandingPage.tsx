@@ -160,7 +160,7 @@ export default function LandingPage() {
               Open Dashboard <ArrowRight size={16} />
             </Link>
             <a
-              href="http://localhost:3000"
+              href={import.meta.env.VITE_STATUS_URL || 'http://localhost:3000'}
               target="_blank"
               rel="noopener noreferrer"
               className="border border-slate-700 hover:border-slate-500 text-slate-300 hover:text-white font-medium px-8 py-3.5 rounded-xl transition-colors text-sm w-full sm:w-auto text-center"

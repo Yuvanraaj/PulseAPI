@@ -95,7 +95,7 @@ export default function Layout() {
           style={{ borderTop: '1px solid rgba(255,255,255,0.05)' }}
         >
           <a
-            href="http://localhost:3000"
+            href={import.meta.env.VITE_STATUS_URL || 'http://localhost:3000'}
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-slate-500 hover:text-slate-300 hover:bg-white/5 text-xs transition-colors border border-transparent"
